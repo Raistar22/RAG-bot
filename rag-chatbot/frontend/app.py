@@ -16,15 +16,32 @@ st.write("Current directory:", current_dir)
 st.write("Parent directory:", parent_dir)
 st.write("Python path:", sys.path)
 
-# Check for required packages
-required_packages = ['langchain', 'faiss-cpu', 'sentence-transformers', 'huggingface-hub']
-missing_packages = []
+# Check Python version
+st.write("Python version:", sys.version)
 
-for package in required_packages:
+# Check installed packages
+try:
+    import pkg_resources
+    installed_packages = [d.project_name for d in pkg_resources.working_set]
+    st.write("Installed packages:", installed_packages)
+except ImportError:
+    st.warning("Could not check installed packages")
+
+# Try to import required packages
+required_packages = {
+    'langchain': 'langchain',
+    'faiss': 'faiss-cpu',
+    'sentence_transformers': 'sentence-transformers',
+    'huggingface_hub': 'huggingface-hub'
+}
+
+missing_packages = []
+for module_name, package_name in required_packages.items():
     try:
-        __import__(package)
+        __import__(module_name)
+        st.write(f"Successfully imported {package_name}")
     except ImportError:
-        missing_packages.append(package)
+        missing_packages.append(package_name)
 
 if missing_packages:
     st.error("Missing required packages. Please install them using:")
@@ -32,24 +49,19 @@ if missing_packages:
     st.error("Or make sure requirements.txt is properly set up in your deployment.")
     st.stop()
 
-# Try to import the backend module
 try:
-    # First try direct import
     from backend.app import build_qa_chain
-except ImportError:
-    try:
-        # If that fails, try importing from the parent directory
-        from rag_chatbot.backend.app import build_qa_chain
-    except ImportError as e:
-        st.error(f"Import Error: {str(e)}")
-        st.error("Current directory contents:")
-        for item in os.listdir(parent_dir):
+    st.write("Successfully imported backend module")
+except ImportError as e:
+    st.error(f"Import Error: {str(e)}")
+    st.error("Current directory contents:")
+    for item in os.listdir(parent_dir):
+        st.write(f"- {item}")
+    st.error("Backend directory contents:")
+    if os.path.exists(os.path.join(parent_dir, "backend")):
+        for item in os.listdir(os.path.join(parent_dir, "backend")):
             st.write(f"- {item}")
-        st.error("Backend directory contents:")
-        if os.path.exists(os.path.join(parent_dir, "backend")):
-            for item in os.listdir(os.path.join(parent_dir, "backend")):
-                st.write(f"- {item}")
-        st.stop()
+    st.stop()
 
 st.title("📋 RAG Chatbot for Insurance & Angel One Support")
 

@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# Create and activate Python 3.10 virtual environment
+python3.10 -m venv venv
+source venv/bin/activate
+
 # Upgrade pip
 python -m pip install --upgrade pip
 
 # Install base dependencies first
 pip install numpy==1.24.3
 
-# Install PyTorch with specific wheel
-pip install --no-cache-dir torch==2.2.0+cpu torchvision==0.17.0+cpu torchaudio==2.2.0+cpu --index-url https://download.pytorch.org/whl/cpu
+# Install PyTorch with specific wheel for Python 3.10
+pip install --no-cache-dir torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cpu
 
 # Install other ML dependencies
 pip install transformers==4.35.2

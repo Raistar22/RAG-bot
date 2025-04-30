@@ -12,6 +12,22 @@ sys.path.insert(0, str(current_dir.parent))
 st.write("Current directory:", current_dir)
 st.write("Python path:", sys.path)
 
+# Check for required packages
+required_packages = ['langchain', 'faiss-cpu', 'sentence-transformers', 'huggingface-hub']
+missing_packages = []
+
+for package in required_packages:
+    try:
+        __import__(package)
+    except ImportError:
+        missing_packages.append(package)
+
+if missing_packages:
+    st.error("Missing required packages. Please install them using:")
+    st.code(f"pip install {' '.join(missing_packages)}")
+    st.error("Or make sure requirements.txt is properly set up in your deployment.")
+    st.stop()
+
 try:
     from backend.app import build_qa_chain
     st.write("Successfully imported backend module")

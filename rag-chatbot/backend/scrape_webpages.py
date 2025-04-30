@@ -78,4 +78,4 @@ def scrape_and_save():
         print(f"[!] Failed to scrape support page: {e}")
 
 if __name__ == "__main__":
-    scrape_and_save()
+    scrape_and_save() 

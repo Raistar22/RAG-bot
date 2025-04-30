@@ -15,8 +15,6 @@ if str(parent_dir) not in sys.path:
 st.write("Current directory:", current_dir)
 st.write("Parent directory:", parent_dir)
 st.write("Python path:", sys.path)
-
-# Check Python version
 st.write("Python version:", sys.version)
 
 # Check installed packages
@@ -40,7 +38,8 @@ for module_name, package_name in required_packages.items():
     try:
         __import__(module_name)
         st.write(f"Successfully imported {package_name}")
-    except ImportError:
+    except ImportError as e:
+        st.write(f"Error importing {package_name}: {str(e)}")
         missing_packages.append(package_name)
 
 if missing_packages:

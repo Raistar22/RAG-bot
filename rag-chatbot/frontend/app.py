@@ -17,35 +17,33 @@ st.write("Parent directory:", parent_dir)
 st.write("Python path:", sys.path)
 st.write("Python version:", sys.version)
 
-# Check installed packages
+# Try to import required packages with fallbacks
 try:
-    import pkg_resources
-    installed_packages = [d.project_name for d in pkg_resources.working_set]
-    st.write("Installed packages:", installed_packages)
-except ImportError:
-    st.warning("Could not check installed packages")
+    import langchain
+    st.write("Successfully imported langchain")
+except ImportError as e:
+    st.error(f"Error importing langchain: {str(e)}")
+    st.stop()
 
-# Try to import required packages
-required_packages = {
-    'langchain': 'langchain',
-    'faiss': 'faiss-cpu',
-    'sentence_transformers': 'sentence-transformers',
-    'huggingface_hub': 'huggingface-hub'
-}
+try:
+    import faiss
+    st.write("Successfully imported faiss")
+except ImportError as e:
+    st.error(f"Error importing faiss: {str(e)}")
+    st.stop()
 
-missing_packages = []
-for module_name, package_name in required_packages.items():
-    try:
-        __import__(module_name)
-        st.write(f"Successfully imported {package_name}")
-    except ImportError as e:
-        st.write(f"Error importing {package_name}: {str(e)}")
-        missing_packages.append(package_name)
+try:
+    import sentence_transformers
+    st.write("Successfully imported sentence-transformers")
+except ImportError as e:
+    st.error(f"Error importing sentence-transformers: {str(e)}")
+    st.stop()
 
-if missing_packages:
-    st.error("Missing required packages. Please install them using:")
-    st.code(f"pip install {' '.join(missing_packages)}")
-    st.error("Or make sure requirements.txt is properly set up in your deployment.")
+try:
+    import huggingface_hub
+    st.write("Successfully imported huggingface-hub")
+except ImportError as e:
+    st.error(f"Error importing huggingface-hub: {str(e)}")
     st.stop()
 
 try:

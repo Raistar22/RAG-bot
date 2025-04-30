@@ -5,7 +5,7 @@ python -m pip install --upgrade pip
 
 # Install base dependencies first
 pip install numpy==1.24.3
-pip install torch==2.1.0 --index-url https://download.pytorch.org/whl/cpu
+pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 pip install transformers==4.35.2
 pip install sentence-transformers==2.2.2
 pip install faiss-cpu==1.7.4

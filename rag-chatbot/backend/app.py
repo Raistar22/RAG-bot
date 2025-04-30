@@ -3,15 +3,20 @@ from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.llms import HuggingFaceHub
 import os
+from pathlib import Path
 
 def build_qa_chain():
+    # Get the absolute path of the current file
+    current_dir = Path(__file__).resolve().parent
+    parent_dir = current_dir.parent
+    
     # Initialize embeddings
     embeddings = HuggingFaceEmbeddings()
     
     # Load the vector store
-    vectorstore_path = "vectorstore"
+    vectorstore_path = os.path.join(parent_dir, "vectorstore")
     if not os.path.exists(vectorstore_path):
-        raise Exception("Vector store not found. Please run the scraper first.")
+        raise Exception(f"Vector store not found at {vectorstore_path}. Please run the scraper first.")
     
     vectorstore = FAISS.load_local(vectorstore_path, embeddings)
     

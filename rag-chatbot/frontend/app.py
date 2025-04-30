@@ -6,18 +6,27 @@ from pathlib import Path
 # Get the absolute path of the current file
 current_dir = Path(__file__).resolve().parent
 # Add the parent directory to the Python path
-sys.path.append(str(current_dir.parent))
+sys.path.insert(0, str(current_dir.parent))
+
+# Debug information
+st.write("Current directory:", current_dir)
+st.write("Python path:", sys.path)
 
 try:
     from backend.app import build_qa_chain
-except ImportError:
-    st.error("Error: Could not import backend module. Please check the deployment structure.")
+    st.write("Successfully imported backend module")
+except ImportError as e:
+    st.error(f"Import Error: {str(e)}")
+    st.error("Current directory contents:")
+    for item in os.listdir(current_dir.parent):
+        st.write(f"- {item}")
     st.stop()
 
 st.title("📋 RAG Chatbot for Insurance & Angel One Support")
 
 try:
     qa_chain = build_qa_chain()
+    st.write("Successfully initialized QA chain")
 except Exception as e:
     st.error(f"Error initializing QA chain: {str(e)}")
     st.stop()

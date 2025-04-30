@@ -19,17 +19,24 @@ st.write("Python version:", sys.version)
 
 # Try to import required packages with fallbacks
 try:
-    import langchain
-    st.write("Successfully imported langchain")
+    import numpy
+    st.write("Successfully imported numpy")
 except ImportError as e:
-    st.error(f"Error importing langchain: {str(e)}")
+    st.error(f"Error importing numpy: {str(e)}")
     st.stop()
 
 try:
-    import faiss
-    st.write("Successfully imported faiss")
+    import torch
+    st.write("Successfully imported torch")
 except ImportError as e:
-    st.error(f"Error importing faiss: {str(e)}")
+    st.error(f"Error importing torch: {str(e)}")
+    st.stop()
+
+try:
+    import transformers
+    st.write("Successfully imported transformers")
+except ImportError as e:
+    st.error(f"Error importing transformers: {str(e)}")
     st.stop()
 
 try:
@@ -40,10 +47,24 @@ except ImportError as e:
     st.stop()
 
 try:
+    import faiss
+    st.write("Successfully imported faiss")
+except ImportError as e:
+    st.error(f"Error importing faiss: {str(e)}")
+    st.stop()
+
+try:
     import huggingface_hub
     st.write("Successfully imported huggingface-hub")
 except ImportError as e:
     st.error(f"Error importing huggingface-hub: {str(e)}")
+    st.stop()
+
+try:
+    import langchain
+    st.write("Successfully imported langchain")
+except ImportError as e:
+    st.error(f"Error importing langchain: {str(e)}")
     st.stop()
 
 try:

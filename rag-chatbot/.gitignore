@@ -32,6 +32,6 @@ ENV/
 *.swo
 
 # Project specific
-data/
+
 vectorstore/
 *.log 
